@@ -1,9 +1,11 @@
 import express, { Express, Request, Response } from "express";
+import { rocketsRouter } from "./rockets/rockets.router.js";
 
 const app: Express = express();
 const PORT = process.env["PORT"] || 3000;
 
 app.use(express.json());
+app.use("/rockets", rocketsRouter);
 
 // Health status endpoint
 app.get("/health", (_req: Request, res: Response) => {
@@ -18,7 +20,7 @@ app.get("/health", (_req: Request, res: Response) => {
 app.get("/", (_req: Request, res: Response) => {
   res.status(200).json({
     message: "Welcome to Astro Bookings Demo API",
-    version: "1.0.0",
+    version: "1.1.0",
   });
 });
 
