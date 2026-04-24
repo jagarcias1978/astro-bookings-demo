@@ -17,6 +17,9 @@ function validateRocketFields(
   if (requireAll && !body.name?.trim()) {
     return "Name is required.";
   }
+  if (!requireAll && body.name !== undefined && !body.name.trim()) {
+    return "Name is required.";
+  }
   if (body.range !== undefined && !VALID_RANGES.includes(body.range)) {
     return `Range must be one of: ${VALID_RANGES.join(", ")}.`;
   }
