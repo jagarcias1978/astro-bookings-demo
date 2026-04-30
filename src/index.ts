@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 
 const app: Express = express();
 const PORT = process.env["PORT"] || 3000;
+const API_VERSION = "1.0.0";
 
 app.use(express.json());
 
@@ -18,7 +19,7 @@ app.get("/health", (_req: Request, res: Response) => {
 app.get("/", (_req: Request, res: Response) => {
   res.status(200).json({
     message: "Welcome to Astro Bookings Demo API",
-    version: "1.0.0",
+    version: API_VERSION,
   });
 });
 

@@ -10,16 +10,7 @@ import * as repo from "./rockets.repository.js";
 
 export const rocketsRouter = Router();
 
-function validateRocketFields(
-  body: Partial<CreateRocketDto>,
-  requireAll: boolean
-): string | null {
-  if (requireAll && !body.name?.trim()) {
-    return "Name is required.";
-  }
-  if (!requireAll && body.name !== undefined && !body.name.trim()) {
-    return "Name is required.";
-  }
+function validateOptionalFields(body: Partial<CreateRocketDto>): string | null {
   if (body.range !== undefined && !VALID_RANGES.includes(body.range)) {
     return `Range must be one of: ${VALID_RANGES.join(", ")}.`;
   }
@@ -30,6 +21,16 @@ function validateRocketFields(
     return `Capacity must be between ${MIN_CAPACITY} and ${MAX_CAPACITY}.`;
   }
   return null;
+}
+
+function validateCreateRocket(body: Partial<CreateRocketDto>): string | null {
+  if (!body.name?.trim()) return "Name is required.";
+  return validateOptionalFields(body);
+}
+
+function validateUpdateRocket(body: UpdateRocketDto): string | null {
+  if (body.name !== undefined && !body.name.trim()) return "Name is required.";
+  return validateOptionalFields(body);
 }
 
 rocketsRouter.get("/", (_req: Request, res: Response) => {
@@ -47,7 +48,7 @@ rocketsRouter.get("/:id", (req: Request, res: Response) => {
 
 rocketsRouter.post("/", (req: Request, res: Response) => {
   const body = req.body as Partial<CreateRocketDto>;
-  const error = validateRocketFields(body, true);
+  const error = validateCreateRocket(body);
   if (error) {
     res.status(400).json({ error });
     return;
@@ -58,7 +59,7 @@ rocketsRouter.post("/", (req: Request, res: Response) => {
 
 rocketsRouter.put("/:id", (req: Request, res: Response) => {
   const body = req.body as UpdateRocketDto;
-  const error = validateRocketFields(body, false);
+  const error = validateUpdateRocket(body);
   if (error) {
     res.status(400).json({ error });
     return;
