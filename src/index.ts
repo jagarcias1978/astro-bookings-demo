@@ -1,7 +1,8 @@
 import express, { Express, Request, Response } from "express";
+import { rocketsRouter } from "./rockets/rockets.router.js";
 
 const app: Express = express();
-const PORT = process.env["PORT"] || 3000;
+const PORT = process.env["PORT"] ?? "3000";
 const API_VERSION = "1.0.0";
 
 app.use(express.json());
@@ -22,6 +23,8 @@ app.get("/", (_req: Request, res: Response) => {
     version: API_VERSION,
   });
 });
+
+app.use("/rockets", rocketsRouter);
 
 app.listen(PORT, () => {
   console.log(`✓ Server running on http://localhost:${PORT}`);

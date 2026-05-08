@@ -1,6 +1,6 @@
-export type RocketRange = "suborbital" | "orbital" | "moon" | "mars";
+export const VALID_RANGES = ["suborbital", "orbital", "moon", "mars"] as const;
+export type RocketRange = (typeof VALID_RANGES)[number];
 
-export const VALID_RANGES: RocketRange[] = ["suborbital", "orbital", "moon", "mars"];
 export const MIN_CAPACITY = 1;
 export const MAX_CAPACITY = 10;
 

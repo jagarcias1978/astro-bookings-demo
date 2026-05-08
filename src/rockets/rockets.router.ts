@@ -10,6 +10,20 @@ import * as repo from "./rockets.repository.js";
 
 export const rocketsRouter = Router();
 
+const NOT_FOUND_ERROR = "Rocket not found.";
+
+function sendBadRequest(res: Response, error: string): void {
+  res.status(400).json({ error });
+}
+
+function sendNotFound(res: Response): void {
+  res.status(404).json({ error: NOT_FOUND_ERROR });
+}
+
+function getRocketId(req: Request): string {
+  return req.params["id"] ?? "";
+}
+
 function validateOptionalFields(body: Partial<CreateRocketDto>): string | null {
   if (body.range !== undefined && !VALID_RANGES.includes(body.range)) {
     return `Range must be one of: ${VALID_RANGES.join(", ")}.`;
@@ -25,6 +39,8 @@ function validateOptionalFields(body: Partial<CreateRocketDto>): string | null {
 
 function validateCreateRocket(body: Partial<CreateRocketDto>): string | null {
   if (!body.name?.trim()) return "Name is required.";
+  if (body.range === undefined) return "Range is required.";
+  if (body.capacity === undefined) return "Capacity is required.";
   return validateOptionalFields(body);
 }
 
@@ -38,9 +54,10 @@ rocketsRouter.get("/", (_req: Request, res: Response) => {
 });
 
 rocketsRouter.get("/:id", (req: Request, res: Response) => {
-  const rocket = repo.findById(req.params["id"]!);
+  const id = getRocketId(req);
+  const rocket = repo.findById(id);
   if (!rocket) {
-    res.status(404).json({ error: "Rocket not found." });
+    sendNotFound(res);
     return;
   }
   res.status(200).json(rocket);
@@ -50,7 +67,7 @@ rocketsRouter.post("/", (req: Request, res: Response) => {
   const body = req.body as Partial<CreateRocketDto>;
   const error = validateCreateRocket(body);
   if (error) {
-    res.status(400).json({ error });
+    sendBadRequest(res, error);
     return;
   }
   const rocket = repo.create(body as CreateRocketDto);
@@ -61,21 +78,23 @@ rocketsRouter.put("/:id", (req: Request, res: Response) => {
   const body = req.body as UpdateRocketDto;
   const error = validateUpdateRocket(body);
   if (error) {
-    res.status(400).json({ error });
+    sendBadRequest(res, error);
     return;
   }
-  const rocket = repo.update(req.params["id"]!, body);
+  const id = getRocketId(req);
+  const rocket = repo.update(id, body);
   if (!rocket) {
-    res.status(404).json({ error: "Rocket not found." });
+    sendNotFound(res);
     return;
   }
   res.status(200).json(rocket);
 });
 
 rocketsRouter.delete("/:id", (req: Request, res: Response) => {
-  const deleted = repo.remove(req.params["id"]!);
+  const id = getRocketId(req);
+  const deleted = repo.remove(id);
   if (!deleted) {
-    res.status(404).json({ error: "Rocket not found." });
+    sendNotFound(res);
     return;
   }
   res.status(204).send();
