@@ -23,6 +23,19 @@ Each rocket has:
 - `range` (`suborbital` | `orbital` | `moon` | `mars`)
 - `capacity` (1–10 passengers)
 
+## Logging
+
+The API uses a basic console logger (no external libraries) with a consistent format:
+
+`[timestamp] [level] [context] message key=value ...`
+
+Current logging coverage:
+- App startup and health endpoint access
+- Request lifecycle (start, completion, status, duration)
+- Rockets route actions (list, get, create, update, delete)
+- Repository outcomes (hit/miss and write operations)
+- Validation and not-found warnings
+
 ## Repositorio
 
 - **GitHub**: https://github.com/jagarcias1978/astro-bookings-demo
