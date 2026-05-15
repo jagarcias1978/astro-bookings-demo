@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-05-15
+
+### Added
+
+- Basic console-based logger with shared formatting and context labels
+- Request lifecycle logging for method, path, status, and duration
+- Route and repository logging for rockets CRUD flows
+- Warning logs for validation failures and missing rocket lookups
+
+### Changed
+
+- README now documents the current logging format and coverage
+- AGENTS instructions now reflect the dedicated logger module in `src/logger`
+
 ## [1.1.0] - 2026-04-24
 
 ### Added

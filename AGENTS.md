@@ -44,6 +44,7 @@ npm run build && npm start
 |-- playwright.config.ts  # Playwright setup and web server config
 |-- src/                  # API source code
 |   |-- index.ts          # Express app entrypoint
+|   |-- logger/           # Console logger utilities
 |   \-- rockets/          # Rockets domain (router, types, repository)
 |-- tests/                # API tests with Playwright
 |-- specs/                # Markdown specs for acceptance criteria
