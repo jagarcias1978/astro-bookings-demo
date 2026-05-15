@@ -2,7 +2,7 @@
 
 ## Product Overview
 - AstroBookings is a demo REST API for rocket bookings management.
-- It exposes CRUD endpoints under /rockets and a /health endpoint.
+- It exposes CRUD endpoints under /rockets, plus /health and / (welcome) endpoints.
 - It is used as course material for AI-assisted programming.
 
 ## Technical Implementation
