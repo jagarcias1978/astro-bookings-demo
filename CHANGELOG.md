@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2026-05-15
+
+### Changed
+
+- Published repository automation assets under `.github/agents`, `.github/prompts`, and `.github/skills`
+- Synchronized the released repository state after the `v1.2.0` publication
+
 ## [1.2.0] - 2026-05-15
 
 ### Added
